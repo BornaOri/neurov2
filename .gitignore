@@ -1,0 +1,102 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# NEURON
+*.o
+*.lo
+*.la
+*.mod.c
+*.c
+x86_64/
+arm64/
+i686/
+powerpc/
+*.dll
+nrnmech.dll
+libnrnmech.*
+*.mod.o
+mod_func.c
+mod_func.cpp
+mechanisms/x86_64/
+mechanisms/arm64/
+mechanisms/i686/
+*.dat
+*.hoc~
+
+# Simulation outputs
+results/*.h5
+results/*.pkl
+results/*.csv
+results/*.npz
+data/experimental/*.h5
+data/experimental/*.pkl
+
+# Large morphology files (download on demand)
+morphologies/*.swc
+morphologies/*.asc
+morphologies/*.hoc
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Documentation
+docs/_build/
+docs/_static/
+docs/_templates/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.log
+*.tmp
+temp/
+tmp/
+
+# MPI
+*.err
+*.out
