@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  neurov2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: neurov2:latest
+    container_name: neurov2_simulation
+    volumes:
+      # Mount results directory to persist outputs
+      - ./results:/app/results
+      # Mount data directory
+      - ./data:/app/data
+      # Mount morphologies directory
+      - ./morphologies:/app/morphologies
+      # Optional: mount notebooks for development
+      - ./notebooks:/app/notebooks
+    environment:
+      - PYTHONUNBUFFERED=1
+      - OMP_NUM_THREADS=4
+    # Resource limits (adjust based on your system)
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 8G
+        reservations:
+          cpus: '2'
+          memory: 4G
+    command: bash
+    stdin_open: true
+    tty: true
+
+  # Jupyter notebook service for interactive analysis
+  jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: neurov2:latest
+    container_name: neurov2_jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./results:/app/results
+      - ./data:/app/data
+      - ./notebooks:/app/notebooks
+      - ./analysis:/app/analysis
+    environment:
+      - PYTHONUNBUFFERED=1
+      - JUPYTER_ENABLE_LAB=yes
+    command: >
+      bash -c "jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser
+      --allow-root --NotebookApp.token=''
+      --NotebookApp.password=''
+      --NotebookApp.allow_origin='*'"
+    stdin_open: true
+    tty: true
+
+networks:
+  default:
+    name: neurov2_network

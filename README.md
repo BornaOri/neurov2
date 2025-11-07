@@ -28,12 +28,51 @@ Investigate the effects of cancer on cortical circuit dynamics by modifying biop
 
 ## Installation
 
-### Prerequisites
-- Python 3.8+
+### 🐳 Option 1: Docker (Recommended - No Manual Setup!)
+
+**The easiest way to get started.** Docker handles all dependencies automatically.
+
+#### Prerequisites
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (Windows/Mac/Linux)
+
+#### Quick Start (3 commands!)
+```bash
+# 1. Clone repository
+git clone <repository-url>
+cd neurov2
+
+# 2. Build Docker image (first time only, ~10 min)
+# Windows:
+docker-run.bat build
+
+# Linux/Mac:
+chmod +x docker-run.sh
+./docker-run.sh build
+
+# 3. Run a test simulation
+# Windows:
+docker-run.bat simulate 500 1000
+
+# Linux/Mac:
+./docker-run.sh simulate 500 1000
+```
+
+**That's it!** Results are saved to `./results/` folder.
+
+**See [DOCKER_GUIDE.md](DOCKER_GUIDE.md) for complete Docker documentation.**
+
+---
+
+### 💻 Option 2: Manual Installation
+
+If you prefer to install manually (requires Python 3.8-3.11):
+
+#### Prerequisites
+- Python 3.8-3.11 (NOT 3.12+, NEURON doesn't support it yet)
 - NEURON 8.0+ with Python interface
 - GCC/Clang compiler for .mod files
 
-### Setup
+#### Setup
 
 ```bash
 # Clone the repository
@@ -51,6 +90,8 @@ cd ..
 # Install package in development mode
 pip install -e .
 ```
+
+**Note**: If you encounter issues with NEURON installation, use Docker instead!
 
 ## Project Structure
 
@@ -70,21 +111,47 @@ neurov2/
 
 ## Quick Start
 
+### Using Docker
+
+```bash
+# Run a simulation (500 cells, 1 second)
+docker-run.bat simulate      # Windows
+./docker-run.sh simulate     # Linux/Mac
+
+# Analyze results
+docker-run.bat analyze results/baseline_500cells.h5    # Windows
+./docker-run.sh analyze results/baseline_500cells.h5   # Linux/Mac
+
+# Start Jupyter for interactive analysis
+docker-run.bat jupyter       # Windows
+./docker-run.sh jupyter      # Linux/Mac
+# Open http://localhost:8888
+```
+
+### Using Python Directly (after manual installation)
+
 ```python
 from network.build_network import build_l23_network
 from simulations.run_simulation import run_baseline_simulation
 
 # Build network with default parameters
-network = build_l23_network(n_neurons=2000)
+network = build_l23_network(n_cells=500)
 
 # Run baseline simulation
-results = run_baseline_simulation(network, duration=1000)  # 1 second
+runner = run_baseline_simulation(
+    network,
+    duration=1000,  # 1 second
+    background_rate=5.0,
+    output_file="results/test.h5"
+)
 
 # Analyze results
-from analysis.visualization import plot_raster, plot_lfp
-plot_raster(results)
-plot_lfp(results)
+from analysis.basic_analysis import load_results, plot_raster
+results = load_results("results/test.h5")
+plot_raster(results['spikes'])
 ```
+
+**See [docs/QUICKSTART.md](docs/QUICKSTART.md) for detailed examples and [DOCKER_GUIDE.md](DOCKER_GUIDE.md) for Docker usage.**
 
 ## Key References
 

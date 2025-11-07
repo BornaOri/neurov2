@@ -1,0 +1,60 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info
+dist
+build
+.eggs
+*.egg
+
+# Virtual environments
+venv/
+venv311/
+env/
+ENV/
+
+# NEURON compiled (will rebuild in container)
+mechanisms/x86_64/
+mechanisms/arm64/
+mechanisms/i686/
+mechanisms/*.o
+mechanisms/*.lo
+mechanisms/*.c
+mechanisms/mod_func.c
+
+# Results (will be mounted as volume)
+results/*.h5
+results/*.pkl
+results/*.csv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentation build
+docs/_build/
+
+# Jupyter
+.ipynb_checkpoints
+notebooks/.ipynb_checkpoints
+
+# Test outputs
+*.log
+*.tmp
+
+# Large data files (will be mounted)
+data/experimental/*.h5
+morphologies/*.swc
